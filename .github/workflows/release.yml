@@ -55,7 +55,7 @@ jobs:
 
       # Attach the .vsix to a GitHub Release so users of any editor can install it.
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: toggle-explorer-gitignore.vsix
           generate_release_notes: true
