@@ -2,6 +2,17 @@ import * as assert from "assert";
 import * as vscode from "vscode";
 
 suite("Toggle Explorer Gitignore", () => {
+  // The extension activates on `onStartupFinished`, which can land after the
+  // first test runs. Force activation up front so command registration and
+  // configuration schema are guaranteed to be ready.
+  suiteSetup(async () => {
+    const ext = vscode.extensions.getExtension(
+      "local.toggle-explorer-gitignore",
+    );
+    assert.ok(ext, "Extension local.toggle-explorer-gitignore not found");
+    await ext.activate();
+  });
+
   test("command is registered", async () => {
     const commands = await vscode.commands.getCommands(true);
     assert.ok(
