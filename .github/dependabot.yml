@@ -7,6 +7,14 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - dependencies
+    groups:
+      # Bundle patch & minor dev-dependency bumps into a single PR.
+      # Major bumps are opened separately so they get individual review.
+      dev-dependencies:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
 
   - package-ecosystem: github-actions
     directory: "/"
@@ -15,3 +23,7 @@ updates:
     labels:
       - dependencies
       - github-actions
+    groups:
+      github-actions:
+        patterns:
+          - "*"
