@@ -1,0 +1,3 @@
+# Sample .gitignore used by the extension test workspace.
+ignored/
+*.log

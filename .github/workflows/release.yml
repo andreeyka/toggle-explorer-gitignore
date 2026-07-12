@@ -1,0 +1,61 @@
+name: Release
+
+# Triggered by pushing a version tag, e.g.  git tag v0.4.0 && git push origin v0.4.0
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write # needed to create the GitHub Release
+
+jobs:
+  release:
+    name: Package & publish
+    runs-on: ubuntu-latest
+    env:
+      VSCE_PAT: ${{ secrets.VSCE_PAT }}
+      OVSX_TOKEN: ${{ secrets.OVSX_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Quality gate — never publish a broken build.
+      - name: Lint
+        run: npm run lint
+
+      - name: Type-check
+        run: npm run check-types
+
+      - name: Test
+        run: xvfb-run -a npm test
+
+      # Build the .vsix once; the same artifact is published everywhere.
+      - name: Package extension
+        run: npx vsce package --no-dependencies -o toggle-explorer-gitignore.vsix
+
+      - name: Publish to VS Code Marketplace
+        if: env.VSCE_PAT != ''
+        run: npx vsce publish --no-dependencies --packagePath toggle-explorer-gitignore.vsix -p "$VSCE_PAT"
+
+      - name: Publish to Open VSX
+        if: env.OVSX_TOKEN != ''
+        run: npx ovsx publish toggle-explorer-gitignore.vsix -p "$OVSX_TOKEN"
+
+      # Attach the .vsix to a GitHub Release so users of any editor can install it.
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: toggle-explorer-gitignore.vsix
+          generate_release_notes: true

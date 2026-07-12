@@ -12,7 +12,7 @@ function extConfig(): vscode.WorkspaceConfiguration {
   return vscode.workspace.getConfiguration("toggleExplorerGitignore");
 }
 
-/** Пишем в тот уровень, где уже задано значение; иначе в Global (или Workspace при открытой папке). */
+/** Write to the level where a value is already defined; otherwise fall back to Global (or Workspace when a folder is open). */
 function resolveWriteScope(folderUri?: vscode.Uri): {
   config: vscode.WorkspaceConfiguration;
   target: vscode.ConfigurationTarget;
@@ -37,13 +37,13 @@ function resolveWriteScope(folderUri?: vscode.Uri): {
 
 function refreshStatus(item: vscode.StatusBarItem): void {
   const folders = vscode.workspace.workspaceFolders;
-  // Для статус-бара показываем состояние первой папки (или глобальное)
+  // For the status bar, reflect the state of the first folder (or the global value)
   const scope = folders?.[0]?.uri;
   const on = effectiveExcludeGitIgnore(scope);
   item.text = on ? "$(exclude) gitignore" : "$(eye) gitignore";
   item.tooltip = on
-    ? "Explorer: скрыты файлы из .gitignore — клик, чтобы показать"
-    : "Explorer: видны игнорируемые — клик, чтобы скрыть";
+    ? "Explorer: .gitignore'd files are hidden — click to show them"
+    : "Explorer: ignored files are visible — click to hide them";
 }
 
 async function applyToggle(
@@ -58,7 +58,7 @@ async function applyToggle(
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     void vscode.window.showErrorMessage(
-      `Не удалось изменить explorer.excludeGitIgnore: ${msg}`,
+      `Failed to update explorer.excludeGitIgnore: ${msg}`,
     );
     log.appendLine(`update error: ${msg}`);
     return;
@@ -66,7 +66,7 @@ async function applyToggle(
   const after = effectiveExcludeGitIgnore(folderUri);
   if (after !== next) {
     void vscode.window.showWarningMessage(
-      "Значение не применилось: проверьте User/Workspace settings и JSON-переопределения для explorer.excludeGitIgnore.",
+      "The value did not take effect: check your User/Workspace settings and any JSON overrides for explorer.excludeGitIgnore.",
     );
     log.appendLine(
       `effective after update: expected ${next}, got ${after} (target=${target})`,
@@ -87,7 +87,7 @@ export function activate(context: vscode.ExtensionContext): void {
   status.command = "toggleExplorerGitignore.toggle";
   refreshStatus(status);
 
-  // Показываем статус-бар согласно настройке
+  // Show the status bar item according to the setting
   const updateVisibility = (): void => {
     const show = extConfig().get<boolean>("showStatusBarItem") ?? true;
     if (show) {
@@ -102,7 +102,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const folders = vscode.workspace.workspaceFolders;
 
     if (!folders || folders.length <= 1) {
-      // Один workspace folder или нет — обычное поведение
+      // A single workspace folder (or none) — the ordinary path
       await applyToggle(folders?.[0]?.uri, log);
     } else {
       const behavior = extConfig().get<string>("multiRootBehavior") ?? "all";
@@ -110,16 +110,16 @@ export function activate(context: vscode.ExtensionContext): void {
       if (behavior === "all") {
         await Promise.all(folders.map((f) => applyToggle(f.uri, log)));
       } else {
-        // ask — показываем QuickPick со списком папок
+        // ask — show a QuickPick with the list of folders
         const items = folders.map((f) => ({
           label: f.name,
           description: f.uri.fsPath,
           uri: f.uri,
         }));
         const picked = await vscode.window.showQuickPick(items, {
-          title: "Применить excludeGitIgnore для папки:",
+          title: "Apply excludeGitIgnore to folder:",
           canPickMany: true,
-          placeHolder: "Выберите одну или несколько папок",
+          placeHolder: "Select one or more folders",
         });
         if (!picked || picked.length === 0) {
           return;
