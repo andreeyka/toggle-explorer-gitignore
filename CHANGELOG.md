@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Dependabot auto-merge workflow for patch & minor updates (majors stay manual).
+- Grouped Dependabot config: patch/minor dev-dependencies and all GitHub Actions bundle into single PRs.
+
 ### Changed
 - Rewrote the README in English with badges, feature table and usage guide.
 - Translated all user-facing strings, comments and tests to English.
