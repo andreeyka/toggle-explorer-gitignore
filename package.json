@@ -1,17 +1,39 @@
 {
   "name": "toggle-explorer-gitignore",
   "displayName": "Toggle Explorer Gitignore",
-  "description": "Status bar + command to toggle explorer.excludeGitIgnore",
+  "description": "Status bar button, command and shortcut to toggle explorer.excludeGitIgnore — show or hide .gitignore'd files in the Explorer.",
   "version": "0.3.0",
   "publisher": "local",
   "private": true,
   "license": "MIT",
+  "author": "Toggle Explorer Gitignore contributors",
+  "homepage": "https://github.com/andreeyka/toggle-explorer-gitignore#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andreeyka/toggle-explorer-gitignore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andreeyka/toggle-explorer-gitignore/issues"
+  },
+  "keywords": [
+    "gitignore",
+    "explorer",
+    "excludeGitIgnore",
+    "toggle",
+    "status bar",
+    "hide files",
+    "workspace"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
     "Other"
   ],
+  "galleryBanner": {
+    "color": "#1e1e2e",
+    "theme": "dark"
+  },
   "activationEvents": [
     "onStartupFinished",
     "onCommand:toggleExplorerGitignore.toggle"
@@ -38,7 +60,7 @@
         "toggleExplorerGitignore.showStatusBarItem": {
           "type": "boolean",
           "default": true,
-          "description": "Показывать кнопку в статус-баре"
+          "description": "Show the toggle button in the status bar."
         },
         "toggleExplorerGitignore.multiRootBehavior": {
           "type": "string",
@@ -48,10 +70,10 @@
           ],
           "default": "all",
           "enumDescriptions": [
-            "Применять ко всем папкам workspace",
-            "Спрашивать для каждой папки"
+            "Apply to every folder in the workspace",
+            "Ask which folder(s) to apply to"
           ],
-          "description": "Поведение при Multi-root workspace"
+          "description": "Behavior in a multi-root workspace."
         }
       }
     }
@@ -59,15 +81,18 @@
   "scripts": {
     "compile": "node build.js",
     "watch": "node build.js --watch",
+    "check-types": "tsc --noEmit",
     "vscode:prepublish": "node build.js --production",
     "vsix": "vsce package --no-dependencies --allow-missing-repository",
     "gen-icon": "node scripts/gen-icon.js",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
+    "pretest": "npm run compile && npm run lint",
     "test": "vscode-test"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
+    "@types/node": "^18.19.0",
     "@types/vscode": "^1.85.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
