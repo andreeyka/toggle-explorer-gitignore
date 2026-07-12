@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Project documentation: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`.
 - GitHub Actions CI workflow (lint, type-check, build, test).
+- Release workflow that publishes to the VS Code Marketplace and Open VSX on tag, plus a `PUBLISHING.md` guide.
 - Issue and pull request templates, Dependabot configuration.
 - `.editorconfig` and a `test-fixtures` workspace for the test suite.
 - `check-types` and `pretest` npm scripts.

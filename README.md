@@ -109,6 +109,12 @@ npm run gen-icon   # regenerate images/icon.png from the inline SVG
 
 The extension entry point is [`src/extension.ts`](src/extension.ts); tests live in [`src/test/`](src/test).
 
+### Releasing / publishing
+
+Publishing to the VS Code Marketplace and Open VSX is automated via a tagged
+release. See the [Publishing Guide](PUBLISHING.md) for the full setup and
+step-by-step release flow.
+
 ## How it works
 
 The extension is a thin, well-behaved wrapper around the native `explorer.excludeGitIgnore` setting:

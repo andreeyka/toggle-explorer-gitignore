@@ -1,5 +1,6 @@
 .vscode/**
 .github/**
+out/**/*.map
 src/**
 scripts/**
 test-fixtures/**
@@ -15,3 +16,4 @@ eslint.config.js
 CONTRIBUTING.md
 CODE_OF_CONDUCT.md
 SECURITY.md
+PUBLISHING.md
