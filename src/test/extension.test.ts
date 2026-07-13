@@ -6,10 +6,12 @@ suite("Toggle Explorer Gitignore", () => {
   // first test runs. Force activation up front so command registration and
   // configuration schema are guaranteed to be ready.
   suiteSetup(async () => {
-    const ext = vscode.extensions.getExtension(
-      "local.toggle-explorer-gitignore",
+    // Match by extension name, not a hardcoded publisher, so the test survives
+    // publisher changes (e.g. "local" -> "andreeyka").
+    const ext = vscode.extensions.all.find((e) =>
+      e.id.toLowerCase().endsWith(".toggle-explorer-gitignore"),
     );
-    assert.ok(ext, "Extension local.toggle-explorer-gitignore not found");
+    assert.ok(ext, "Extension toggle-explorer-gitignore not found");
     await ext.activate();
   });
 
