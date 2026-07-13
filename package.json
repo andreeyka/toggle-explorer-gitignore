@@ -3,7 +3,7 @@
   "displayName": "Toggle Explorer Gitignore",
   "description": "Status bar button, command and shortcut to toggle explorer.excludeGitIgnore — show or hide .gitignore'd files in the Explorer.",
   "version": "0.3.0",
-  "publisher": "local",
+  "publisher": "andreeyka",
   "private": true,
   "license": "MIT",
   "author": "Toggle Explorer Gitignore contributors",
