@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Grouped Dependabot config: patch/minor dev-dependencies and all GitHub Actions bundle into single PRs.
 
 ### Changed
+- Upgraded to **TypeScript 6.0** (pinned to `~6.0.3` for typescript-eslint compatibility); added `@types/mocha` and an explicit `types` list in `tsconfig.json` (TS 6 no longer auto-includes all `@types`). Dependabot now ignores TypeScript major bumps until the lint toolchain supports TS 7.
 - Rewrote the README in English with badges, feature table and usage guide.
 - Translated all user-facing strings, comments and tests to English.
 - Added repository metadata (repository, bugs, homepage, keywords, author) to `package.json`.
