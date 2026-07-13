@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Dependabot auto-merge workflow for patch & minor updates (majors stay manual).
+- Dependabot `ignore` rule for `@types/vscode` so it stays pinned to the minimum supported engine.
 - Grouped Dependabot config: patch/minor dev-dependencies and all GitHub Actions bundle into single PRs.
 
 ### Changed
