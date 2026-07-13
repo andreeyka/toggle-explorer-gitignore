@@ -7,6 +7,11 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - dependencies
+    ignore:
+      # Keep @types/vscode pinned to the minimum supported engine
+      # (engines.vscode). Bump it manually together with engines.vscode when
+      # intentionally raising the minimum VS Code version.
+      - dependency-name: "@types/vscode"
     groups:
       # Bundle patch & minor dev-dependency bumps into a single PR.
       # Major bumps are opened separately so they get individual review.
