@@ -12,6 +12,11 @@ updates:
       # (engines.vscode). Bump it manually together with engines.vscode when
       # intentionally raising the minimum VS Code version.
       - dependency-name: "@types/vscode"
+      # Stay on TypeScript 6.0.x: typescript-eslint 8 only supports
+      # typescript <6.1.0. Revisit TypeScript 7 once the lint toolchain does.
+      - dependency-name: "typescript"
+        update-types:
+          - version-update:semver-major
     groups:
       # Bundle patch & minor dev-dependency bumps into a single PR.
       # Major bumps are opened separately so they get individual review.
