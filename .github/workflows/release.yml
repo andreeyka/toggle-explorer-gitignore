@@ -53,9 +53,29 @@ jobs:
         if: env.OVSX_TOKEN != ''
         run: npx ovsx publish toggle-explorer-gitignore.vsix -p "$OVSX_TOKEN"
 
+      # Generate the notes once, deterministically. Passing them as `body` (rather
+      # than the action's own `generate_release_notes`) overwrites the release body
+      # on every run, so a re-run — or a release that already exists for the tag —
+      # can never append a second copy of the notes.
+      - name: Generate release notes
+        id: notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          body=$(gh api --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "repos/${{ github.repository }}/releases/generate-notes" \
+            -f tag_name="${{ github.ref_name }}" \
+            --jq .body)
+          {
+            echo "body<<RELEASE_NOTES_EOF"
+            echo "$body"
+            echo "RELEASE_NOTES_EOF"
+          } >> "$GITHUB_OUTPUT"
+
       # Attach the .vsix to a GitHub Release so users of any editor can install it.
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
           files: toggle-explorer-gitignore.vsix
-          generate_release_notes: true
+          body: ${{ steps.notes.outputs.body }}
