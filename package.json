@@ -101,6 +101,6 @@
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.1",
     "eslint": "^10.7.0",
-    "typescript": "^5.7.0"
+    "typescript": "^7.0.2"
   }
 }
